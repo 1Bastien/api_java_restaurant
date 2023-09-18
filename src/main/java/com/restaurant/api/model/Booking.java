@@ -4,10 +4,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
 
 import java.time.LocalDateTime;
 
@@ -22,7 +23,7 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Past
+    @Future
     @NotNull
     private LocalDateTime date;
 
@@ -37,6 +38,19 @@ public class Booking {
     @Range(min=1, max=15)
     @NotNull
     private int nbGuests;
+    
+    @ManyToOne
+    @NotNull
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
+    
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+    
+    public Restaurant getRestaurant() {
+    	return restaurant;
+    }
 
 	public Long getId() {
 		return id;

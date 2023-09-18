@@ -1,14 +1,19 @@
 package com.restaurant.api.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.validator.constraints.Length;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
@@ -21,6 +26,7 @@ public class Restaurant{
 
     @Length(min=3, max=30)
     @NotNull
+    @Column(unique = true)
     private String name;
 
     @Min(0)
@@ -33,9 +39,13 @@ public class Restaurant{
     
     private int[][] openingTime;
     
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Booking> bookings = new ArrayList<>();
     
-    public Restaurant() {
-    	this.openingTime = new int[7][24];
+    
+    public void addChild(Booking booking) {
+        bookings.add(booking);
+        booking.setRestaurant(this);
     }
    
     public Long getId() {
