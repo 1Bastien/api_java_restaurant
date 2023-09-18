@@ -3,6 +3,7 @@ package com.restaurant.api.model;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,14 +31,15 @@ public class Customer {
 
     @Email
     @NotNull
-    private String mail;
+    @Column(unique = true)
+    private String email;
 
     @Length(min=6, max=100)
     @NotNull
     private String password;
     
     @NotNull
-    private String roles;
+    private String role;
     
     @Range(min=1, max=15)
     @NotNull
@@ -68,12 +70,12 @@ public class Customer {
 		this.lastName = lastName;
 	}
 
-	public String getMail() {
-		return mail;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setMail(String mail) {
-		this.mail = mail;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -84,12 +86,12 @@ public class Customer {
 		this.password = password;
 	}
 
-	public String getRoles() {
-		return roles;
+	public String getRole() {
+		return role;
 	}
 
-	public void setRoles(String roles) {
-		this.roles = roles;
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public int getNbGuests() {
